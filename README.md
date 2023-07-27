@@ -3,9 +3,9 @@
 
 [![Video Guide](https://img.youtube.com/vi/PptLQPXxvG4/0.jpg)](https://www.youtube.com/watch?v=PptLQPXxvG4)
 
-I created this for myself so that I could learn and practice Mario Kart 64 Shortcut Skips (see for example this video [here](https://youtu.be/8lNlByFLRjE)).
+I created this for myself so that I could learn and practice Mario Kart 64 Shortcut Skips (see for example this video [here](https://youtu.be/8lNlByFLRjE)). 
 
-I knew the Wario Racetrack skip, but the rest I had seen videos of but never managed to consistently land. 
+I knew the Wario Racetrack skip, but the rest I had seen videos of but never managed to consistently land. Note that I am in no way good at Mario Kart, and I did not find any of these skips. This is simply the tool I made to finally learn to do them, and to provide an environment to practice them over and over until I got consistent.
 
 This project acts as a shell for the Javascript N64 emulator N64Wasm [here](https://github.com/nbarkhina/N64Wasm) so that I could have the guides and videos set up next to an emulator, with buttons to load the savestates so that I could attempt the skips over and over until I had them down.
 

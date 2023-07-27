@@ -36,4 +36,4 @@ Drag and drop "Mario Kart 64 (E) (V1.1) [!].z64" into the box in N64Wasm to load
 - https://github.com/nbarkhina/N64Wasm without which none of this could work
 - Beck Abney's guide at https://beckabney.com/mk64/basicskips.html
 - The strategy wiki guide https://strategywiki.org/wiki/Mario_Kart_64/Shortcuts
-
+- Youtube embedded videos, to be listed shortly

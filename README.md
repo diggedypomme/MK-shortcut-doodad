@@ -32,5 +32,8 @@ Note that you cannot run this just by opening the html file in a browser - the p
 
 Drag and drop "Mario Kart 64 (E) (V1.1) [!].z64" into the box in N64Wasm to load the game. Note that if you copy this file into the dist folder (along with the index.html) it will be available from boot.
 
-
+## References
+-- https://github.com/nbarkhina/N64Wasm without which none of this could work
+-- Beck Abney's guide at https://beckabney.com/mk64/basicskips.html
+-- The strategy wiki guide https://strategywiki.org/wiki/Mario_Kart_64/Shortcuts
 

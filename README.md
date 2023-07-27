@@ -1,8 +1,12 @@
-# MKshortcutdoodad
+# MK-shortcut-doodad
+
+ ![Example Guide](/info/ui.png)
 
 I created this for myself so that I could learn and practice Mario Kart 64 Shortcut Skips (see for example this video [here](https://youtu.be/8lNlByFLRjE)).
 
-I knew the Wario Racetrack skip, but the rest I had seen videos of but never managed to consistently land. By setting up a shell for the Javascript N64 emulator N64Wasm [here](https://github.com/nbarkhina/N64Wasm), I could have the guides and videos set up next to an emulator, with buttons to load the savestates so that I could attempt the skips over and over until I had them down.
+I knew the Wario Racetrack skip, but the rest I had seen videos of but never managed to consistently land. 
+
+This project acts as a shell for the Javascript N64 emulator N64Wasm [here](https://github.com/nbarkhina/N64Wasm) so that I could have the guides and videos set up next to an emulator, with buttons to load the savestates so that I could attempt the skips over and over until I had them down.
 
 Here is my [video](https://www.youtube.com/watch?v=PptLQPXxvG4) explaining this and showing how to use the tool.
 

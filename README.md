@@ -21,7 +21,7 @@ git clone https://github.com/diggedypomme/MKshortcuts.git
 
 or download the zip and extract it.
 
-You then need to host the html - I do this with python by going to the folder and typing:
+You then need to host the html - I do this with python by going to the "dist" folder and typing:
 python -m http.server 8080
 
 And then I access it through the browser. The savestates are in /savestates and this is where to add the files once renamed

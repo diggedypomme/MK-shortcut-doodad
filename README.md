@@ -1,6 +1,6 @@
 # MK-shortcut-doodad
 
- ![Example Guide](/info/ui.png)
+ ![Example Guide](/info/mk.png)
 
 I created this for myself so that I could learn and practice Mario Kart 64 Shortcut Skips (see for example this video [here](https://youtu.be/8lNlByFLRjE)).
 

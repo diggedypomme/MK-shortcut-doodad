@@ -17,7 +17,7 @@ Here is my [video](https://www.youtube.com/watch?v=PptLQPXxvG4) explaining this 
 
 To install simply git clone the repo with
 
-git clone https://github.com/diggedypomme/MKshortcuts.git
+git clone https://github.com/diggedypomme/MK-shortcut-doodad.git
 
 or download the zip and extract it.
 

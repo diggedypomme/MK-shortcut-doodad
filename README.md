@@ -28,6 +28,9 @@ And then I access it through the browser. The savestates are in /savestates and 
 
 Note that you cannot run this just by opening the html file in a browser - the page will load but the game won't run. 
 
+## Running 
+
+Drag and drop "Mario Kart 64 (E) (V1.1) [!].z64" into the box in N64Wasm to load the game. Note that if you copy this file into the dist folder (along with the index.html) it will be available from boot.
 
 
 

@@ -26,4 +26,8 @@ python -m http.server 8080
 
 And then I access it through the browser. The savestates are in /savestates and this is where to add the files once renamed
 
+Note that you cannot run this just by opening the html file in a browser - the page will load but the game won't run. 
+
+
+
 

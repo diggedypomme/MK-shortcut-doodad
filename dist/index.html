@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Mario Kart Skip Trainer v5</title>
+	
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="keywords" content="N64 Emulator, N64 JavaScript Emulator, WebAssembly, HTML5, Nintendo 64">
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/rivets/0.9.6/rivets.bundled.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.2/dist/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.10.0/nipplejs.min.js">
+	</script>
+	<script src="robscripts.js"></script>
+	
+	
+	
+	<script>
+	
+	document.addEventListener('keydown', function(event) {
+  if (event.key === 'F8') {
+    // Your script or function to run when F8 is pressed
+    console.log("F8 key was pressed!");
+	myApp.loadStateLocal()
+    // Add your code here
+  }
+});
+
+	</script>
+	
+	
+	
+	
+	
+    <style>
+        input[type="file"] {
+            display: none;
+        }
+/* Example CSS */
+.tooltip-icon {
+  margin-left: 5px; /* Add some spacing between the button and the icon */
+      cursor: help;
+      color: pink;
+}
+
+        .table td,
+        .table th {
+            padding: 5px;
+        }
+
+        .regularTable td,
+        .regularTable th {
+            padding: 0;
+            vertical-align: top;
+            border-top: 0px;
+        }
+
+        .lightpurple {
+            background-color: rgb(189, 174, 173);
+        }
+
+        .darkpurple {
+            background-color: rgb(238, 21, 21);
+            background-color: rgb(199, 199, 230);
+        }
+
+        .buttonhold {
+            background-color: lightsalmon;
+        }
+        
+        .nav-tabs .nav-item.show .nav-link,
+        .nav-tabs .nav-link.active {
+            color: #007bff;
+        }
+		
+		.btn-rob {
+    color: #fff;
+    background-color: #6bcb7a;;
+    border-color: #007bff;
+}
+
+		.btn-shortcut {
+    color: #fff;
+    background-color: #d3a2e3;;;
+    border-color: #007bff;
+	
+	
+	
+}
+
+.maincontainer {
+    width: 100%;
+    /* padding-right: 15px; */
+    /* padding-left: 15px; */
+ /*   margin-right: auto;  */
+ /*   margin-left: auto;  */
+	
+}
+
+  html {
+    transform: scale(0.8);
+    transform-origin: 0 0;
+    width: 125%;
+    height: 125%;
+    overflow: hidden;
+  }
+
+
+    body {
+      margin: 0;
+      padding: 0;
+	  height: 80%;
+
+    }
+      #newcontainer {
+      height: 125%;
+      display: flex;
+      flex-direction: row;
+      overflow: hidden;
+
+    
+    .content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      border: 2px solid #000;
+      box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.3);
+	  flex-direction: column
+    }
+    
+    #left {
+      background: linear-gradient(to right, #ffcc00, #ff5500);
+      min-width: 1000px; /* Adjust the value as needed */
+	   width: 60%;
+    }
+    
+    #right {
+      background: linear-gradient(to right, #00ccff, #0055ff);
+    }
+
+
+
+
+
+    /* CSS styles for the buttons */
+    .button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 10px;
+      background-color: #555555;
+      color: white;
+    }
+
+    .active {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    /* CSS styles for the guide content */
+    .guide-container {
+      padding: 20px;
+      font-size: 18px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+
+
+    </style>
+</head>
+
+<body>
+
+
+
+  <div id="newcontainer">
+    <div class="content" id="left">
+
+	  
+	  
+	  
+	  <div id="maindiv" class="maincontainer text-center">
+        <h1>
+            Mario Kart Skip Trainer
+        </h1>
+		<BR>
+		(f8 to reload)
+        <div id="topPanel" style="display: none;">
+
+            <!-- BEFORE LOAD -->
+            <div rv-if="data.beforeEmulatorStarted">
+                <button id="btnPlayGame" class="btn btn-primary mt-4" onclick="myClass.loadRom();" rv-if="data.hasRoms"
+                    rv-disabled="data.moduleInitializing">Play Game</button>
+                <button id="btnUploadRom" class="btn btn-primary mt-4" onclick="myApp.uploadBrowse()"
+                        rv-disabled="data.moduleInitializing">Browse</button>
+                <button type="button" class="btn btn-primary mt-4" id="btnRemap" onclick="myApp.showRemapModal()">
+                    Remap Buttons
+                </button>
+                <span rv-if="data.showLogin">
+                    <button class="btn btn-primary mt-4" rv-if="data.loggedIn | ev '==false'"
+                        onclick="myApp.loginModal()">Login</button>
+                    <button class="btn btn-primary mt-4" rv-if="data.loggedIn | ev '==true'"  
+                        onclick="myApp.logout()">Logout</button>
+                </span>
+
+                <div class="form-check" style="margin-top: 13px;" rv-if="data.settings.SHOWADVANCED">
+                    <label class="form-check-label" style="margin-right: 10px;">
+                        <input type="checkbox" class="form-check-input" rv-checked="data.chkAdvanced" rv-disabled="data.moduleInitializing">
+                        Advanced
+                    </label>
+                </div>
+
+                <div class="card" style="width: 18rem;margin-left: auto;margin-right: auto;margin-top: 20px;margin-bottom: 31px;" 
+                    rv-if="data.chkAdvanced">
+                    <div class="card-body">
+                        <h5 class="card-title">Advanced</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Options</h6>
+                            
+                            <button id="btnUploadEep" class="btn btn-secondary mt-4" onclick="myApp.uploadEepBrowse()">
+                                Import Save File (EEP)</button>
+                            <div rv-if="data.eepName | ev_string '.length > 0'">
+                                { data.eepName }
+                            </div>
+
+                            <button id="btnUploadSra" class="btn btn-secondary mt-4" onclick="myApp.uploadSraBrowse()">
+                                Import Save File (SRA)</button>
+                            <div rv-if="data.sraName | ev_string '.length > 0'">
+                                { data.sraName }
+                            </div>
+
+                            <button id="btnUploadFla" class="btn btn-secondary mt-4" onclick="myApp.uploadFlaBrowse()">
+                                Import Save File (FLA)</button>
+                            <div rv-if="data.flaName | ev_string '.length > 0'">
+                                { data.flaName }
+                            </div>
+
+                        <!-- <a href="#" class="card-link">Card link</a>
+                        <a href="#" class="card-link">Another link</a> -->
+                    </div>
+                </div>
+
+
+
+                <input id="file-upload-eep" type="file" />
+                <input id="file-upload-sra" type="file" />
+                <input id="file-upload-fla" type="file" />
+                <input id="file-upload" type="file" />
+
+                <!-- ROM LIST -->
+                <div class="form-group mt-2 mb-4" rv-if="data.hasRoms" style="width: 300px;margin-left: auto; margin-right:auto;">
+                    <select class="form-control" id="romselect">
+                        <option rv-each-rom="data.romList" rv-value="rom.url">{rom.title}</option>
+                    </select>
+                </div>
+
+                <!-- SAVE STATES -->
+                <div id="dbSaveStates" rv-if="data.loggedIn | ev '==true'">
+                    <button id="btnLoadRomAndSaveState" class="btn btn-primary mt-2 mb-2" onclick="myApp.loadRomAndSavestate()"
+                        rv-disabled="data.moduleInitializing">Load Savestate</button>
+                    <div class="form-group mt-2 mb-4" style="width: 300px;margin-left: auto; margin-right:auto;">
+                        <select class="form-control" id="savestateSelect">
+                            <option rv-each-item="data.n64SaveStates" rv-value="item.Name">{item.Name}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- AFTER LOAD -->
+            <div rv-hide="data.beforeEmulatorStarted">
+                <button class="btn btn-primary mt-2 mb-2" 
+                    onclick="myApp.newRom()" >New Rom</button>
+                <div class="btn-group mt-2 mb-2" rv-if="data.settings.SHOWADVANCED">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Advanced
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" onclick="myApp.exportEep()" style="cursor: pointer;">Export Save (EEP)</a>
+                        <a class="dropdown-item" onclick="myApp.exportSra()" style="cursor: pointer;">Export Save (SRA)</a>
+                        <a class="dropdown-item" onclick="myApp.exportFla()" style="cursor: pointer;">Export Save (FLA)</a>
+                    </div>
+                </div>
+                <div class="btn-group mt-2 mb-2" rv-if="data.settings.SHOWOPTIONS">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Options
+                    </button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" onclick="myApp.reset()" style="cursor: pointer;">Reset</a>
+                    </div>
+                </div>
+                <button rv-if="data.loggedIn | ev '==true'" class="btn btn-primary mt-2 mb-2" 
+                    onclick="myApp.saveCloud()" >Save Cloud</button>
+                <button rv-if="data.loggedIn | ev '==true'" class="btn btn-primary mt-2 mb-2" 
+                    onclick="myApp.loadCloud()"  rv-disabled="data.noCloudSave">Load Cloud</button>
+                <button rv-if="data.loggedIn | ev '==false'" class="btn btn-primary mt-2 mb-2" 
+                    onclick="myApp.saveStateLocal()" >Save State</button>
+                <button rv-if="data.loggedIn | ev '==false'" class="btn btn-primary mt-2 mb-2" 
+                    onclick="download_savestate()" rv-disabled="data.noLocalSave" >Download State</button>
+				 <button rv-if="data.loggedIn | ev '==false'" class="btn btn-primary mt-2 mb-2" 
+                    onclick="myApp.loadStateLocal()" rv-disabled="data.noLocalSave" >Load State</button>	
+					
+					
+                <button class="btn btn-primary mt-2 mb-2" onclick="myApp.zoomOut()">Zoom Out</button>
+                <button class="btn btn-primary mt-2 mb-2" onclick="myApp.zoomIn()">Zoom In</button>
+                <button class="btn btn-primary mt-2 mb-2" onclick="myApp.fullscreen()" >Full Screen</button>
+				
+				<br>
+				
+
+				
+            </div>
+
+            <div rv-if="data.iosShowWarning" class="mt-4">
+                <div class="alert alert-info" role="alert">
+                    <b>NOTE: </b>On iOS 16 and above in order to improve the framerate you should disable the following: Settings -> Safari -> 
+                    Advanced -> Experimental Features -> GPU Process: WebGL. Then restart safari and it should take effect.
+                  </div>
+            </div>
+			
+			
+			
+			
+			
+			
+
+
+            <div style="margin-top:40px;" rv-if="data.beforeEmulatorStarted">
+                <div id="dropArea" style="width: 150px; height: 150px; border: gray 1px solid;margin-left: auto;
+                    color: darkgrey;margin-right: auto; border-style: dashed;">
+                    <br>
+                    <br>
+                    Drag/Drop 
+                    <br>
+                    Rom File
+                </div>
+            </div>
+        </div>
+
+        <div id="lblErrorOuter" style="display: none;">
+            <div rv-if="data.lblError | ev_string '.length > 0'"
+                class="alert alert-danger mt-4" id="lblError" role="alert" 
+                rv-html="data.lblError">
+            </div>
+        </div>
+
+        <div id="mydiv" class="mt-4"></div>
+        <!-- ID has to be canvas it's hardcoded in the EM generated .js -->
+        <div id="canvasDiv" style="display: none;">
+            <canvas id="canvas" style="width: 640px;"></canvas>
+        </div>
+
+        <div id="bottomPanel" rv-hide="data.beforeEmulatorStarted">
+            <!-- <div>{ data.audioSkipCount}</div> -->
+        </div>
+
+        <h6 class="card-title mt-4">
+		
+		
+
+</head>
+<body>
+  
+
+<BR><BR>
+<center>
+Upload Savestate
+<input type="file" id="fileInput" style=" display: block;" >
+ <button id="downloadButton" onclick="uploadFileContent()">upload Data</button>
+</center>
+ 
+
+
+   
+
+
+    </div>
+	  
+	  
+	  
+    </div>
+    <div class="content" id="right">
+	<div id="outerid" style="    border: solid; width:700px  ;
+    height: 90%;
+    border: solid;
+    min-width: 700px;
+    width: 90%;
+	overflow-y:hidden;
+	    border-radius: 27px;
+    background-color: #e9e9e9;
+	    padding: 15px;"
+}">
+
+
+  <div id="menu-bar">
+    <button id="info-btn" class="button active" onclick="toggleGuide('info')">Info</button>
+    <button id="robguide-btn" class="button inactive" onclick="toggleGuide('robguide')">Robguide</button>
+    <button id="full-guide1-btn" class="button inactive" onclick="toggleGuide('full-guide1')">Guide by Beck Abney</button>
+    <button id="full-guide2-btn" class="button inactive" onclick="toggleGuide('full-guide2')">Strategy Wiki</button>
+    <button id="full-video-btn" class="button inactive" onclick="toggleGuide('full-video')"> Videos</button>
+  </div>
+  
+  
+  
+  
+  <div id="info" class="guide-container" style="overflow-y:scroll;height: 90%">
+  <h1>Mario Kart 64 Skip Trainer.</h1>
+  
+ <BR>
+ This is a tool created to help learn the speedrunning shortcut skips in Mario Kart 64.<BR>
+ This is based on nbarkhina's <a href="https://github.com/nbarkhina/N64Wasm" target="_blank"> 
+N64Wasm</a> N64 emulator
+<BR>
+
+<BR>First set any controls with the <button style="    margin-top: 0rem!important;" type="button" class="btn btn-primary mt-4" id="btnRemap" onclick="myApp.showRemapModal() ">
+                    Remap Buttons
+                </button>
+button.<BR><BR> Then click
+				<button id="btnPlayGame" class="btn btn-primary mt-4" onclick="myClass.loadRom();" rv-disabled="data.moduleInitializing" style="    margin-top: 0rem!important;">Play Game</button> over on the left<BR>
+<BR>
+ By clicking onto the <button id="robguide-btn" class="button active" onclick="toggleGuide('robguide')">Robguide</button> section, you can jump to any level, as well as pre set up jumps. First set your controls if needed, and then click to play game. Once it boots, a savestate can be loaded (for example: the Frappe Snowland jump preparation<button  Class="btn btn-shortcut mt-2 mb-2"   onclick='loadFromFile("two_two_setup.z64");'>Frappe Snowland jump preparation</button>,<span class="tooltip-icon" title="/savestates/two_two_setup.z64">ℹ️</span>
+
+</p>
+ <BR>
+ <BR>
+ Click "load savestate" up at the top to load from the last savestate. F8 will also do a quickload of this.
+<BR>
+<BR> Once you click any of the savestates in the guide, it will overwrite the one saved in the browser. If you want a temporary savestate, you can click "save savestate" but this will be overwritten the next time you click one of those links. You can also click to download a savestate, and you can load it under the game box. Note that you will need to wait a moment then click "load savestate" again
+ <BR>
+ <BR>
+ There is a suggested order to learn these skips in, but my favourite are the Wario Stadium ones, so you may already have one that you want to practice
+ 
+ <BR><BR>
+ 
+ For a video of the current top record run (with skips), please click <button  Class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;"  onclick='Change_vid_to("https://www.youtube.com/embed/rfJAwLEufWo");'>Here</button>
+ <BR><BR>
+ If you don't know where to start, there are some suggestions for priorites over in Abney's guide here:
+ <button id="full-guide1-btn" class="button inactive" onclick="toggleGuide('full-guide1')">Guide by Beck Abney</button>
+  </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  <div id="robguide" class="guide-container hidden" style="display:hidden;height: 90%">
+    
+    <div id="cup-buttons" style="display:hidden">
+      <button id="mushroom-cup-btn" class="button active" onclick="showCup('mushroom-cup')">Mushroom Cup</button>
+      <button id="flower-cup-btn" class="button inactive" onclick="showCup('flower-cup')">Flower Cup</button>
+      <button id="star-cup-btn" class="button inactive" onclick="showCup('star-cup')">Star Cup</button>
+      <button id="special-cup-btn" class="button inactive" onclick="showCup('special-cup')">Special Cup</button>
+    </div>
+    <div id="cup-content" style="height: 90%" >
+      <div id="mushroom-cup" class="hidden" style="height: 90%">
+        
+        <button id="luigi-raceway-btn" class="button" onclick="showTrack('luigi-raceway')">Luigi Raceway</button>
+
+        <button id="moo-moo-farm-btn" class="button" onclick="showTrack('moo-moo-farm')">Moo Moo Farm</button>
+        <button id="koopa-troopa-beach-btn" class="button" onclick="showTrack('koopa-troopa-beach')">Koopa Troopa Beach</button>
+        <button id="kalimari-desert-btn" class="button" onclick="showTrack('kalimari-desert')">Kalimari Desert</button>
+		
+		
+		
+		
+		
+		
+		
+		
+        <div id="luigi-raceway-content" class="hidden" style="overflow-y:scroll; height: 90%">
+          <h4>Luigi Raceway - 1-1</h4>
+
+		     <button  Class="btn btn-rob mt-2 mb-2"   onclick='loadFromFile("firstlevel.z64");'>Luigi Raceway Start</button>
+			 <span class="tooltip-icon" title="/savestates/firstlevel.z64">ℹ️</span>
+	
+		  <BR><hr><BR>
+		  
+		  <B>Luigi Raceway Red shell jump</b>. Difficulty 1<BR>
+		       <button  Class="btn btn-shortcut mt-2 mb-2"  onclick='loadFromFile("one_one_jump.z64");'>firstjump</button>
+			   <span class="tooltip-icon" title="/savestates/one_one_jump.z64">ℹ️</span>
+		  <BR>
+		  This one involves heading forward, grabbing some red shells, and then heading back to the start line where the aim is to fire red shells backwards near the start, and then head towards the wall to your right. If timed correctly, you will be hit and it will flip you over the wall.
+		  
+		  <BR>
+		    <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/hbhqn84WAWQ?start=33&autoplay=1');"> Mario Kart 64: Shortcuts, Glitches, & Corner Cutters Compilation, by YoyoYoshi </button>
+  <BR>
+		  <hr>
+		  <br>
+				  <B>Luigi Raceway mushroom jump</b>. Difficulty : Too hard for me. Discovered in 2021<BR>
+		       <button  Class="btn btn-shortcut mt-2 mb-2"  onclick='loadFromFile("one_one_mushroom.z64");'>Mushroom jump</button>
+			   <span class="tooltip-icon" title="/savestates/one_one_mushroom.z64">ℹ️</span>
+		  <BR>
+		  See video.You can jump over the wall.
+		   
+		  <BR>
+		    <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/py05yQMneIE?start=2&autoplay=1');"> Mushroom jump</button>
+		
+  <BR>
+
+		  
+		   <hr>
+		  <br>
+		  
+		  <B>Luigi Raceway Finish line skip</b>. Difficulty : Too hard for me. Discovered in 2021<BR>
+		       <button  Class="btn btn-shortcut mt-2 mb-2"  onclick='loadFromFile("one_one_finishline.z64");'>Finish line jump</button>
+		  <BR>
+		  See video. When lining up with mushrooms you get enough space to go through the wall slightly and then bounce back on the other side of the wall finishing a lap.<BR>
+		   
+		  <BR>
+		    <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/MYibDiE6ygQ?start=0&autoplay=1');"> Mario Kart 64 - New Luigi Raceway Shortcut , by Beck Abney - Explanation</button>
+			<BR>
+		    <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/MYibDiE6ygQ?start=59&autoplay=1');"> Mario Kart 64 - New Luigi Raceway Shortcut , by Beck Abney jump set up</button>
+  <BR>
+
+		  
+		   <hr>
+		  <br>
+
+		
+		  
+		  
+		  
+        </div>
+        <div id="moo-moo-farm-content" class="hidden" style="height: 90%; overflow-y:scroll">
+		
+          <h4>Moo Moo Farm - 1-2</h4>
+		  <button  Class="btn btn-rob mt-2 mb-2"   onclick='loadFromFile("secondlevel.z64");'> Moo Moo Farm Start</button>  
+		  <span class="tooltip-icon" title="/savestates/secondlevel.z64">ℹ️</span>
+		  <BR>
+		  There are no known skips for this level
+        </div>
+        <div id="koopa-troopa-beach-content" class="hidden" style="height: 90%; overflow-y:scroll">
+          <h4>Koopa Troopa Beach - 1-3</h4>
+		  <button  Class="btn btn-rob mt-2 mb-2"   onclick='loadFromFile("thirdlevel.z64");'>Koopa Troopa Beach Start</button>
+		  <span class="tooltip-icon" title="/savestates/thirdlevel.z64">ℹ️</span>
+		  <BR>
+		  There are no known skips for this level
+        </div>
+        <div id="kalimari-desert-content" class="hidden" style="height: 90%; overflow-y:scroll">
+          <h4>Kalimari Desert - 1-4</h4>
+		 
+		  		  	  <button class="btn btn-rob mt-2 mb-2" onclick="loadFromFile(&quot;fourthlevel.z64&quot;);">Kalimari Desert Start</button>
+					<span class="tooltip-icon" title="/savestates/fourthlevel.z64">ℹ️</span>  
+	
+		  <BR>
+		
+		  <hr>
+		  <BR>
+		  <B>Train tunnel skip</b><BR>
+		
+		
+		
+		   <button  Class="btn btn-shortcut mt-2 mb-2"  onclick='loadFromFile("one_four_trainskip.z64");'>Train tunnel skip</button>
+		 <span class="tooltip-icon" title="/savestates/one_four_trainskip.z64">ℹ️</span>
+		  
+		  <BR>
+		  This involves getting a star, and then heading into the tunnel until you are told to reverse. At this point, activate the star and head back, having skipped the lap <BR>
+		      <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=61&autoplay=1');">Train tunnel skip explanation</button>
+			  <BR><hr>
+		  
+		  
+		  
+		  
+        </div>
+      </div>
+      <div id="flower-cup" class="hidden" style="height: 90%">
+        
+        <button id="toads-turnpike-btn" class="button" onclick="showTrack('toads-turnpike')">Toad's Turnpike</button>
+        <button id="frappe-snowland-btn" class="button" onclick="showTrack('frappe-snowland')">Frappe Snowland</button>
+        <button id="choco-mountain-btn" class="button" onclick="showTrack('choco-mountain')">Choco Mountain</button>
+        <button id="mario-raceway-btn" class="button" onclick="showTrack('mario-raceway')">Mario Raceway</button>
+        <div id="toads-turnpike-content" class="hidden" style="height: 90%; overflow-y:scroll">
+          <h4>Toad's Turnpike - 2-1</h4>
+		  <button class="btn btn-rob mt-2 mb-2" onclick="loadFromFile(&quot;two_one.z64&quot;);">Toad's Turnpike Start</button>
+		  <span class="tooltip-icon" title="/savestates/two_one.z64">ℹ️</span>
+		  <BR>
+		  There are two main skips for this level:
+		  <BR>
+		  <hr>
+		  <BR>
+		  <B>Wall jump to road below</b><BR>
+		   <button class="btn btn-shortcut mt-2 mb-2" onclick="loadFromFile(&quot;two_one.z64&quot;);">Set up for the road jump</button>
+		   <span class="tooltip-icon" title="/savestates/two_one.z64">ℹ️</span>
+		  
+		  <BR>
+		  For the first lap, jump into the wall on the left just before the roads cross over. This will result in you getting put back on the track. As you are placed down, accelerate just before you are touched down, and you should have the speed to swing immediately right, and jump over the wall. If you have done it fast enough, it won't give the timer for being picked up chance to reset, and you will fall to the track below rather than being picked up for going out of bounds. <BR>
+		      <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=18&autoplay=1');">Video showing the jump in action</button>
+			  <BR><hr><BR>
+			  <b>Second jump</b><BR>
+			  For subsequent laps you can then jump the fence just after the start line to do the skip<BR>
+			  		      <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/uKUfOPFYPoc?start=54&autoplay=1');"> Skip after the first lap</button>
+        </div>
+        <div id="frappe-snowland-content" class="hidden" style="height: 90%; overflow-y:scroll">
+          <h4>Frappe Snowland - 2-2</h4>
+		  	  <button class="btn btn-rob mt-2 mb-2" onclick="loadFromFile(&quot;two_two.z64&quot;);">Frappe Snowland Start</button>
+	<span class="tooltip-icon" title="/savestates/two_two.z64">ℹ️</span>
+		  <BR>
+		  <hr>
+		  <BR>
+		  <B>Initial bridge jump</b><BR>
+		   <button class="btn btn-shortcut mt-2 mb-2" onclick="loadFromFile(&quot;two_two_setup.z64&quot;);">Set up for the initial bridge jump</button>
+		  <span class="tooltip-icon" title="/savestates/two_two_setup.z64">ℹ️</span>
+		  
+		  <BR>
+		  For this you need to drive backwards onto the bridge, then jump from the bridge to the snow on the right hand side without touching the road on the way. You can then drive past the finish track and off the side to be reset to the bridge having done a lap. Rince and repeat. <BR>
+		      <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=83&autoplay=1');">Video showing the jump in action</button>
+			  <BR><hr>
+        </div>
+        <div id="choco-mountain-content" class="hidden" style="height: 90%; overflow-y:scroll">
+          <h4>Choco Mountain - 2-3</h4>
+		   	  <button class="btn btn-rob mt-2 mb-2" onclick="loadFromFile(&quot;two_three.z64&quot;);">Choco Mountain Start</button>
+			  <span class="tooltip-icon" title="/savestates/two_three.z64">ℹ️</span>
+        </div>
+        <div id="mario-raceway-content" class="hidden" style="height: 90%; overflow-y:scroll">
+          <h4>Mario Raceway - 2-4</h4>
+		    <button class="btn btn-rob mt-2 mb-2" onclick="loadFromFile(&quot;two_four.z64&quot;);">Mario Raceway Start</button>
+			<span class="tooltip-icon" title="/savestates/two_four.z64">ℹ️</span>
+        </div>
+      </div>
+      <div id="star-cup" class="hidden" style="height: 90%">
+     
+        <button id="wario-stadium-btn" class="button" onclick="showTrack('wario-stadium')">Wario Stadium</button>
+		    <button id="sherbet-land-btn" class="button" onclick="showTrack('sherbet-land')">Sherbet Land</button>
+        <button id="royal-raceway-btn" class="button" onclick="showTrack('royal-raceway')">Royal Raceway</button>
+        <button id="bowsers-castle-btn" class="button" onclick="showTrack('bowsers-castle')">Bowser's Castle</button>
+        <div id="wario-stadium-content" class="hidden" style="overflow-y:scroll; height: 90%">
+          <h4>Wario Stadium - 3-1</h4>
+		  <button class="btn btn-rob mt-2 mb-2" onclick="loadFromFile(&quot;three_one.z64&quot;);">Wario Stadium Start
+		</button>
+		<span class="tooltip-icon" title="/savestates/three_one.z64">ℹ️</span>
+			  <BR>
+		  <hr>
+		  <BR>
+		  <B>Wall jump 1</b><BR>
+		   <button class="btn btn-shortcut mt-2 mb-2" onclick="loadFromFile(&quot;three_one_jump1.z64&quot;);">Set up for the initial wall jump </button>
+		   <span class="tooltip-icon" title="/savestates/three_one_jump1.z64">ℹ️</span>
+		  
+		  
+		  <BR>
+		 Jump over the wall at to the left of the start. This will skip half of the map. If you curve round and manage to get over back over the wall behind the finish line then you can complete the lap, but I haven't managed that myself, so I do them separately<BR>
+		      <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=111&autoplay=1');">Explanation for the jump</button>
+			  <BR>
+			 
+		  <hr>
+		  <BR>
+		  <B>The return jump</b><BR>
+		   <button class="btn btn-shortcut mt-2 mb-2" onclick="loadFromFile(&quot;three_one_jump2.z64&quot;);">Set up for the return jump </button>
+		  
+		  
+		  <BR>
+		Line yourself up with the finish line and then jump over the wall just to the right of the line. Too far right and you will be picked up, too far left (over the line) and it will undo the skip you already did<BR>
+		    
+			
+			       <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=119&autoplay=1');">Shorter video of the clip</button>
+			  <BR><hr>
+			  
+			  
+			  
+			  		  <hr>
+		  <BR>
+		  <B>Jump 3</b><BR>
+		   <button class="btn btn-shortcut mt-2 mb-2" onclick="loadFromFile(&quot;three_one_jump3.z64&quot;);">Set up for the return jump </button>
+		   <span class="tooltip-icon" title="/savestates/three_one_jump3.z64">ℹ️</span>
+		  
+		  
+		  <BR>
+		These are easier, but less effective than the two skips above<BR>
+		    
+			
+			       <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/aG8Ma3uBJFI?start=88&autoplay=1');">Shorter video of the clip</button>
+			  <BR><hr>
+		
+		
+				  <hr>
+		  <BR>
+		  <B>Jump 4</b><BR>
+		   <button class="btn btn-shortcut mt-2 mb-2" onclick="loadFromFile(&quot;three_one_jump4.z64&quot;);">Set up for the return jump </button>
+		  <span class="tooltip-icon" title="/savestates/three_one_jump4.z64">ℹ️</span>
+		  
+		  <BR>
+		These are easier, but less effective than the two skips above<BR>
+		    
+			
+			       <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/aG8Ma3uBJFI?start=45&autoplay=1');">Shorter video of the clip</button>
+			  <BR><hr>
+		
+			  
+			  
+			  
+			  
+			  
+		
+        </div>
+        <div id="sherbet-land-content" class="hidden" style="overflow-y:scroll; height: 90%">
+          <h4>Sherbet Land - 3-2</h4>
+		  <button class="btn btn-rob mt-2 mb-2" onclick="loadFromFile(&quot;three_two.z64&quot;);">Sherbet Land Start</button>
+		  <span class="tooltip-icon" title="/savestates/two_two_setup.z64">ℹ️</span>
+        </div>
+        <div id="royal-raceway-content" class="hidden" style="overflow-y:scroll; height: 90%">
+          <h4>Royal Raceway - 3-3</h4>
+		  <button class="btn btn-rob mt-2 mb-2" onclick="loadFromFile(&quot;three_three.z64&quot;);">Royal Raceway Start</button>
+		  <span class="tooltip-icon" title="/savestates/three_three.z64">ℹ️</span>
+		  
+		  			  <BR>
+		  <hr>
+		  <BR>
+		  <B>Large skip to the ramp</b><BR>
+		   <button class="btn btn-shortcut mt-2 mb-2"  onclick="loadFromFile(&quot;three_three_jump1.z64&quot;);">Set up for the wall clip </button>
+		   <span class="tooltip-icon" title="/savestates/three_three_jump1.z64">ℹ️</span>
+		  
+		  
+		  <BR>
+		 This involves curving off the road, boosting and jumping in the aim of hitting a polygon across the river This will reset you and place you on the ramp.<BR>
+		      <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=141&autoplay=1');">Explanation for the clip</button>
+			  <BR>
+			       <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=149&autoplay=1');">Shorter video of the clip</button>
+			  <BR><hr>
+		
+		  <BR>
+		  <B>Jump from the ramp</b><BR>
+		   <button class="btn btn-shortcut mt-2 mb-2"  onclick="loadFromFile(&quot;three_three_bigjump.z64&quot;);">Set up for the wall clip </button>
+		   <span class="tooltip-icon" title="/savestates/three_three_bigjump.z64">ℹ️</span>
+		  
+		  
+		  <BR>
+		 The aim is to curl off to the left, and end up on the edge of the cliff at the end of the river channel. Check the video to see<BR>
+		      <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/uKUfOPFYPoc?start=139&autoplay=1');">Example of the clip</button>
+			  
+			  <BR><hr>
+	
+        </div>
+        <div id="bowsers-castle-content" class="hidden" style="overflow-y:scroll; height: 90%">
+          <h4>Bowser's Castle - 3-4</h4>
+		  <button class="btn btn-rob mt-2 mb-2" onclick="loadFromFile(&quot;three_four.z64&quot;);">Bowser's Castle Start</button>
+		  <span class="tooltip-icon" title="/savestates/three_four.z64">ℹ️</span>
+		  <BR>
+		  There are no known skips for this level
+        </div>
+      </div>
+      <div id="special-cup" class="hidden" style="height: 90%">
+     
+        <button id="dks-jungle-parkway-btn" class="button" onclick="showTrack('dks-jungle-parkway')">DK's Jungle Parkway</button>
+        <button id="yoshi-valley-btn" class="button" onclick="showTrack('yoshi-valley')">Yoshi Valley</button>
+        <button id="banshee-boardwalk-btn" class="button" onclick="showTrack('banshee-boardwalk')">Banshee Boardwalk</button>
+        <button id="rainbow-road-btn" class="button" onclick="showTrack('rainbow-road')">Rainbow Road</button>
+        <div id="dks-jungle-parkway-content" class="hidden" style="overflow-y:scroll; height: 90%">
+          <h4>DK's Jungle Parkway - 4-1</h4>
+		  <button class="btn btn-rob mt-2 mb-2" onclick="loadFromFile(&quot;four_one.z64&quot;);">DK's Jungle Parkway Start</button>
+		  <span class="tooltip-icon" title="/savestates/four_one.z64">ℹ️</span>
+		  
+		  <BR>
+		  <hr>
+		  <BR>
+		  <B>Tunnel clip</b><BR>
+		   <button class="btn btn-shortcut mt-2 mb-2" onclick="loadFromFile(&quot;four_one_clip.z64&quot;);">Set up for the wall clip </button>
+		   <span class="tooltip-icon" title="/savestates/four_one_clip.z64">ℹ️</span>
+		  
+		  
+		  <BR>
+		 Drive into the tunnel behind you,  then turn around and attempt to clip at the corner between the tunnel wall and the grass (clipping out and then back in). Check the video or the guide by Abney linked above (it has some images to make it easier to understand))<BR>
+		      <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=161&autoplay=1');">Explanation for the clip</button>
+			  <BR>
+			       <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=180&autoplay=1');">Shorter video of the clip</button>
+			  <BR><hr>
+        </div>
+        <div id="yoshi-valley-content" class="hidden" style="overflow-y:scroll; height: 90%">
+          <h4>Yoshi Valley - 4-2</h4>
+		  <button class="btn btn-rob mt-2 mb-2" onclick="loadFromFile(&quot;four_two.z64&quot;);">Yoshi Valley Start</button>
+		  <span class="tooltip-icon" title="/savestates/four_two.z64">ℹ️</span>
+        
+			  <BR>
+		  <hr>
+		  <BR>
+		  <B>Cliff wall skip</b><BR>
+		   <button class="btn btn-shortcut mt-2 mb-2"  onclick="loadFromFile(&quot;four_three_jump.z64&quot;);">Set up for the wall clip </button>
+		   <span class="tooltip-icon" title="/savestates/four_three_jump.z64">ℹ️</span>
+		  
+		  
+		  <BR>
+		 This requires either mushrooms, or at a pinch, a star. If you head back to the finish line,and turn to facethe cliff just to the right of the egg that is in the distance. Boost then jump and you are trying to hit the seam on the cliff as you go down. This will skip part of the level.<BR>
+		      <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=200&autoplay=1');">Explanation for the clip</button>
+			  <BR>
+			       <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=240&autoplay=1');">Shorter video of the clip</button>
+			  <BR><hr>
+		
+		</div>
+        <div id="banshee-boardwalk-content" class="hidden" style="overflow-y:scroll; height: 90%">
+          <h4>Banshee Boardwalk - 4-3</h4>
+		  <button class="btn btn-rob mt-2 mb-2" onclick="loadFromFile(&quot;four_three.z64&quot;);">Banshee Boardwalk Start</button>
+		  <span class="tooltip-icon" title="/savestates/four_three.z64">ℹ️</span>
+		    <BR>
+		  There are no known skips for this level
+        </div>
+        <div id="rainbow-road-content" class="hidden" style="overflow-y:scroll; height: 90%">
+          <h4>Rainbow Road - 4-4</h4>
+		  <button class="btn btn-rob mt-2 mb-2" onclick="loadFromFile(&quot;four_four.z64&quot;);">Rainbow Road  Start</button>
+		  <span class="tooltip-icon" title="/savestates/four_four.z64">ℹ️</span>
+		  
+		  
+		  
+			  <BR>
+		  <hr>
+		  <BR>
+		  <B>Initial leap of faith</b><BR>
+		   <button class="btn btn-shortcut mt-2 mb-2"  onclick="loadFromFile(&quot;four_four.z64&quot;);">Set up for the wall clip </button>
+		   <span class="tooltip-icon" title="/savestates/four_four.z64">ℹ️</span>
+		  
+		  
+		  <BR>
+		 At the start get some speed up then hook over to the left and jump the wall to drop down to the track below<BR>
+		      <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=253&autoplay=1');">Explanation for the clip</button>
+			
+			  <BR><hr><BR>
+			  
+			  
+			  		  <B>ending green shell</b><BR>
+		   <button class="btn btn-shortcut mt-2 mb-2"  onclick="loadFromFile(&quot;four_four_finaljump.z64&quot;);">Set up for the jump</button>
+		   <span class="tooltip-icon" title="/savestates/four_four_finaljump.z64">ℹ️</span>
+		  
+		  
+		  <BR>
+		This involves hitting yourself and flipping you over the right hand edge with a green shell,  a little before the finish line. You need a green shell to do this. You need the speed to pass the finish line. It will pop you back ontop the course a lap later<BR>
+		      <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=266&autoplay=1');">Explanation for the clip</button>
+			  <BR>
+			       <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0?start=271&autoplay=1');">Shorter video of the clip</button>
+			  <BR><hr>
+		
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div id="full-video" class="guide-container hidden">
+  
+  
+ 
+  
+  
+  <h2>Skipping info </h2>
+  
+  
+ Mario Kart 64 Lap Skips And Glitches - Son Of A Glitch - Episode 14 by A+Start
+ <BR>
+  <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/gGI8YXKW3G0');"> A video explaining some of the skips.</button>
+  
+  <BR>
+  
+
+  
+  <BR>
+  
+  
+Mario Kart 64: Shortcuts, Glitches, & Corner Cutters Compilation, by YoyoYoshi <BR>
+  <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/uKUfOPFYPoc');"> A video showcasing some of the skips.</button>
+  
+  <BR>
+  
+
+  
+  <BR>
+ 
+  A video explaining some of the more obtuse exploits, by Bismuth, Weatherton, Forest64, and micro500<BR>
+  <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube.com/embed/2_uRIyAgtpE');">Driving through walls</button>
+  
+  
+  
+  <BR><BR>
+  
+    <h2>Speedruns</h2>
+	マリオカート64RTA実況 - GP 23:14.71 All Cups Skips【WR】<BR>
+	  <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube-nocookie.com/embed/rfJAwLEufWo');">Current world champion</button>
+	
+	
+	
+ 
+	<BR>
+	<BR>
+	Beck Abney - Mario Kart 64 150cc All Cups (Skips) Shortcut Speedrun 23:21 (Former WR)
+	<BR>
+		  <button class="btn btn-shortcut mt-2 mb-2" style="background-color: #44acdd;" onclick="Change_vid_to('https://www.youtube-nocookie.com/embed/0NvhmIrr2Ac');">Prior world record</button>
+
+   
+  </div>
+  
+    <div id="full-guide1" class="guide-container hidden" style="height: inherit;">
+ 
+	  <h2> Guide from <a href="https://beckabney.com/mk64/basicskips.html" target="_blank">https://beckabney.com/mk64/basicskips.html</a> </h2>
+
+   	<iframe width="100%" height="90%" src=https://beckabney.com/mk64/basicskips.html></iframe>
+
+   
+  </div>
+
+    <div id="full-guide2" class="guide-container hidden"  style="height: inherit;">
+    <h2> Guide from <a href="https://strategywiki.org/wiki/Mario_Kart_64/Shortcuts" target="_blank">https://strategywiki.org/wiki/Mario_Kart_64/Shortcuts</a> </h2>
+
+
+   	<iframe width="100%" height="90%" src=https://strategywiki.org/wiki/Mario_Kart_64/Shortcuts></iframe>
+
+   
+  </div>
+  
+  
+
+
+    </div>
+	
+	
+	
+	  
+    </div>
+	
+	
+	
+  </div>
+
+
+
+<style>
+  #youtube-iframe-container {
+    position: fixed;
+    bottom: 20px;
+  
+    right: 4%;
+   
+    z-index: 9999;
+    background-color: #fff;
+    padding: 15px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
+  #youtube-iframe {
+    width: 950px;
+    height: 534px;
+    margin-bottom: 20px;
+  }
+  
+  #hide-button {
+    text-align: center;
+    margin-top: 10px;
+
+	
+  }
+</style>
+
+
+<div id="youtube-iframe-container" style="display: none;">
+  <div id="youtube-iframe">
+    <iframe id="youtube-video" width="950" height="534" src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+  </div>
+  <div id="hide-button">
+    <button onclick="hideYoutubeIframe()" class="button active" style="	background-color:red;">Hide</button>
+  </div>
+</div>
+
+<script>
+  function hideYoutubeIframe() {
+    document.getElementById("youtube-iframe-container").style.display = "none";
+  }
+</script>
+
+
+    
+
+    <!-- Mobile UX -->
+    <div id="mobileButtons" style="display: none;text-align: center;background: white;
+                   padding-top: 20px;padding-bottom: 20px;">
+        <div style="margin-bottom: 10px;">
+            <button class="btn btn-primary mt-2 mb-2" onclick="myApp.newRom()" >New Rom</button>
+            <button rv-if="data.loggedIn | ev '==true'" class="btn btn-primary mt-2 mb-2" onclick="myApp.saveCloud()" >Save Cloud</button>
+            <button rv-if="data.loggedIn | ev '==true'" class="btn btn-primary mt-2 mb-2" onclick="myApp.loadCloud()" rv-disabled="data.noCloudSave">Load Cloud</button>
+            <button rv-if="data.loggedIn | ev '==false'" class="btn btn-primary mt-2 mb-2" onclick="myApp.saveStateLocal()" >Save State</button>
+            <button rv-if="data.loggedIn | ev '==false'" class="btn btn-primary mt-2 mb-2" onclick="myApp.loadStateLocal()" rv-disabled="data.noLocalSave" >Load State</button>
+			
+        </div>
+        <button type="button" class="btn btn-primary" onclick="myApp.hideMobileMenu()">
+            Hide
+        </button>
+    </div>
+    <div id="mobileDiv" style="display: none;height: 100%;">
+        <div id="mobileCanvas">
+    
+        </div>
+    
+        <div id="mobileBottomPanel" style="font-size: 36px;height:100%;text-align: center!important;background: white;">
+            <table style="width: 100%;" cellpadding=0 cellspacing=0>
+                <tr>
+                    <td style="border-right: 1px solid rgb(72,72,72);width:50%;">
+                        <div id="mobileStart" class="lightpurple" rv-class-buttonhold="data.inputController.MobileStart">
+                            Start
+                        </div>
+                    </td>
+                    <td>
+                    <div id="mobileSelect" class="lightpurple" rv-class-buttonhold="data.inputController.MobileSelect">
+                        <span rv-if="data.useZasCMobile | ev '==false'">Z</span>
+                        <span rv-if="data.useZasCMobile | ev '==true'">C (Hold)</span>
+                    </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="border-right: 1px solid rgb(72,72,72);">
+                        <div id="mobileB" class="darkpurple" rv-class-buttonhold="data.inputController.MobileB">
+                            B
+                        </div>
+                    </td>
+                    <td>
+                        <div id="mobileA" class="darkpurple" rv-class-buttonhold="data.inputController.MobileA">
+                            A
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <!-- <div style="color: lightgray;height:100%;" id="divTouchSurface">
+                <div style="padding-top: 20px;height: 800px;" id="startDiv">
+                    << Swipe to Move>>
+                </div>
+            </div> -->
+            <div style="margin-left: auto;margin-right: auto;width: 100%;height: 800px;">
+                <div id="divTouchSurface" style="color: lightgray;position: absolute;width: 100%;height: 800px;">
+                    <div style="padding-top: 20px;" id="startDiv" style="-webkit-touch-callout: none; /* iOS Safari */
+                    -webkit-user-select: none; /* Safari */
+                     -khtml-user-select: none; /* Konqueror HTML */
+                       -moz-user-select: none; /* Old versions of Firefox */
+                        -ms-user-select: none; /* Internet Explorer/Edge */
+                            user-select: none; /* Non-prefixed version, currently
+                                                  supported by Chrome, Edge, Opera and Firefox */">
+                        Virtual Joystick
+                    </div>
+                </div>
+            </div>
+    
+            <div id="menuDiv"
+                style="opacity: 0.5; background-color: rgba(243,244,244,1);width: 70px;position: absolute; top:0px;left:170px;font-size: 14px;">
+                -MENU-
+            </div>
+    
+    
+        </div>
+    </div>
+
+    <!--  Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" id="txtPassword" autocomplete="off"
+                            rv-value="data.password" onkeydown="" placeholder="Enter Password">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="myApp.loginSubmit()">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Keymapping Modal -->
+    <div class="modal fade" id="buttonsModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Remap Buttons</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalMain" style="padding-bottom: 0;">
+                    <ul class="nav nav-tabs" rv-hide="data.remapWait">
+                        <li class="nav-item">
+                            <a class="nav-link" rv-class-active="data.remapPlayer1" style="cursor: pointer;"
+                                onclick="myApp.swapRemap('player1')">Player 1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" rv-class-active="data.remapOptions" style="cursor: pointer;"
+                                onclick="myApp.swapRemap('options')">Options</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" rv-class-active="data.remapGameshark" style="cursor: pointer;"
+                                onclick="myApp.swapRemap('gameshark')">GameShark</a>
+                        </li>
+                    </ul>
+                    <div rv-if="data.remapPlayer1">
+                        <table class="table" rv-hide="data.remapWait">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Button</th>
+                                    <th scope="col">Keyboard</th>
+                                    <th scope="col">Joypad</th>
+                                    <th scope="col">Remap</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">D-Up</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Up" type="text" class="form-control"
+                                            disabled>
+                                    </td>
+                                    <td>
+                                        <input rv-value="data.remappings.Joy_Mapping_Up" type="text" class="form-control"
+                                            disabled>
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(1)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapJoy(1)"
+                                                        class="btn btn-primary ml-2">Joypad</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">D-Down</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Down" type="text" class="form-control"
+                                            disabled>
+                                    </td>
+                                    <td>
+                                        <input rv-value="data.remappings.Joy_Mapping_Down" type="text" class="form-control"
+                                            disabled>
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(2)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapJoy(2)"
+                                                        class="btn btn-primary ml-2">Joypad</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">D-Left</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Left" type="text" class="form-control"
+                                            disabled>
+                                    </td>
+                                    <td>
+                                        <input rv-value="data.remappings.Joy_Mapping_Left" type="text" class="form-control"
+                                            disabled>
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(3)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapJoy(3)"
+                                                        class="btn btn-primary ml-2">Joypad</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">D-Right</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Right" type="text" class="form-control"
+                                            disabled>
+                                    </td>
+                                    <td>
+                                        <input rv-value="data.remappings.Joy_Mapping_Right" type="text" class="form-control"
+                                            disabled>
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(4)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapJoy(4)"
+                                                        class="btn btn-primary ml-2">Joypad</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">A</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_A" type="text" class="form-control"
+                                            disabled>
+                                    </td>
+                                    <td>
+                                        <input rv-value="data.remappings.Joy_Mapping_Action_A" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(5)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapJoy(5)"
+                                                        class="btn btn-primary ml-2">Joypad</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">B</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_B" type="text" class="form-control"
+                                            disabled>
+                                    </td>
+                                    <td>
+                                        <input rv-value="data.remappings.Joy_Mapping_Action_B" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(6)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapJoy(6)"
+                                                        class="btn btn-primary ml-2">Joypad</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Start</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_Start" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        <input rv-value="data.remappings.Joy_Mapping_Action_Start" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(8)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapJoy(8)"
+                                                        class="btn btn-primary ml-2">Joypad</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Z</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_Z" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        <input rv-value="data.remappings.Joy_Mapping_Action_Z" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(10)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapJoy(10)"
+                                                        class="btn btn-primary ml-2">Joypad</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">L</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_L" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        <input rv-value="data.remappings.Joy_Mapping_Action_L" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(11)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapJoy(11)"
+                                                        class="btn btn-primary ml-2">Joypad</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">R</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_R" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        <input rv-value="data.remappings.Joy_Mapping_Action_R" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(12)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapJoy(12)"
+                                                        class="btn btn-primary ml-2">Joypad</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Menu</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Menu" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        <input rv-value="data.remappings.Joy_Mapping_Menu" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(9)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapJoy(9)"
+                                                        class="btn btn-primary ml-2">Joypad</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">CUP</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_CUP" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(13)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">CDOWN</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_CDOWN" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(14)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">CLEFT</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_CLEFT" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(15)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">CRIGHT</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_CRIGHT" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(16)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">UP</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_Analog_Up" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(17)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">DOWN</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_Analog_Down" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(18)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">LEFT</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_Analog_Left" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(19)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">RIGHT</th>
+                                    <td>
+                                        <input rv-value="data.remappings.Mapping_Action_Analog_Right" type="text"
+                                            class="form-control" disabled>
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        <table class="regularTable">
+                                            <tr>
+                                                <td>
+                                                    <button type="button" onclick="myApp.btnRemapKey(20)"
+                                                        class="btn btn-primary">Key</button>
+                                                </td>
+                                                <td>
+                                                    
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div rv-if="data.remapWait">
+                            <div class="mt-4 mb-4 text-center">
+                                Please press a { data.remapMode }
+                                <br>
+                                <br>
+                                { data.inputController.Key_Last }
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div rv-if="data.remapOptions">
+                        <div class="mt-4 mb-4">
+                            
+                            <div>
+                                <label class="form-check-label" style="margin-left: 26px;">
+                                    <input type="checkbox" class="form-check-input" rv-checked="data.disableAudioSyncTemp">
+                                    Vertical Sync (improves refresh rate)
+                                </label>
+                            </div>
+
+                            <div class="mt-2">
+                                <label class="form-check-label" style="margin-left: 26px;">
+                                    <input type="checkbox" class="form-check-input" rv-checked="data.forceAngryTemp">
+                                    Software Renderer (very slow but highly accurate)
+                                </label>
+                            </div>
+
+                            <div class="mt-2">
+                                <label class="form-check-label" style="margin-left: 26px;">
+                                    <input type="checkbox" class="form-check-input" rv-checked="data.showFPSTemp">
+                                    Show FPS
+                                </label>
+                            </div>
+
+                            <div class="mt-2">
+                                <label class="form-check-label" style="margin-left: 26px;">
+                                    <input type="checkbox" class="form-check-input" rv-checked="data.swapSticksTemp">
+                                    Swap Left and Right Sticks (good for goldeneye)
+                                </label>
+                            </div>
+                            <div class="mt-2">
+                                <label class="form-check-label" style="margin-left: 26px;">
+                                    <input type="checkbox" class="form-check-input" rv-checked="data.mouseModeTemp">
+                                    Mouse Controls (good for starcraft)
+                                </label>
+                            </div>
+                            
+                            <div class="mt-2">
+                                <label class="form-check-label" style="margin-left: 26px;">
+                                    <input type="checkbox" class="form-check-input" rv-checked="data.invert2PTemp">
+                                    Player 2 Invert Y-Axis
+                                </label>
+                            </div>
+                            <div class="mt-2">
+                                <label class="form-check-label" style="margin-left: 26px;">
+                                    <input type="checkbox" class="form-check-input" rv-checked="data.invert3PTemp">
+                                    Player 3 Invert Y-Axis
+                                </label>
+                            </div>
+                            <div class="mt-2">
+                                <label class="form-check-label" style="margin-left: 26px;">
+                                    <input type="checkbox" class="form-check-input" rv-checked="data.invert4PTemp">
+                                    Player 4 Invert Y-Axis
+                                </label>
+                            </div>
+
+                            <div class="mt-2">
+                                <table>
+                                    <tr>
+                                        <td>Mobile</td>
+                                        <td>
+                                            <div>
+                                                <select class="form-control" rv-value="data.settingMobileTemp" id="ddlMobile" style="margin-left: 16px;">
+                                                    <option value="Auto">Auto Detect</option>
+                                                    <option value="ForceMobile">Force Mobile</option>
+                                                    <option value="ForceDesktop">Force Desktop</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div rv-if="data.remapGameshark">
+                        <div class="mt-4 mb-4">
+                            <table class="table" rv-hide="data.remapWait">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Active</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Address</th>
+                                        <th scope="col">Value</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr rv-each-cheat="data.cheats">
+                                        <th scope="row">
+                                            <label class="form-check-label" style="margin-left: 26px; margin-top: 5px;">
+                                                <input type="checkbox" class="form-check-input" rv-checked="cheat.active">
+                                                Active
+                                            </label>
+                                        </th>
+                                        <td>
+                                            <input rv-value="cheat.name" type="text" class="form-control" disabled>
+                                        </td>
+                                        <td>
+                                            <input rv-value="cheat.address" type="text" class="form-control" disabled>
+                                        </td>
+                                        <td>
+                                            <input rv-value="cheat.value" type="text" class="form-control" disabled>
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <button type="button" class="btn btn-danger" rv-name="cheat.name" onclick="myApp.deleteCheat(this)">Delete</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">
+                                        </th>
+                                        <td>
+                                            <input rv-value="data.cheatName" type="text" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input rv-value="data.cheatAddress" type="text" class="form-control">
+                                        </td>
+                                        <td>
+                                            <input rv-value="data.cheatValue" type="text" class="form-control">
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <button type="button" class="btn btn-success" onclick="myApp.addCheat()">Add</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+				
+				
+				
+
+				
+				
+				
+				
+				
+				
+                <div class="modal-footer" style="padding-top: 0;" rv-hide="data.remapWait">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" onclick="myApp.restoreDefaultKeymappings()" class="btn btn-primary">Restore Defaults</button>
+                    <button type="button" class="btn btn-primary" onclick="myApp.saveRemap()">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="settings.js"></script>
+    <script src="romlist.js"></script>
+    <script type="text/javascript">
+        var rando = Math.floor(Math.random() * Math.floor(100000));
+        var script = document.createElement('script');
+        script.src = 'script.js?v=' + rando;
+        document.getElementsByTagName('head')[0].appendChild(script);
+    </script>
+	
+	<script>
+	
+	  // Function to toggle the visibility of the selected guide
+    function toggleGuide(guide) {
+      const guides = ['info','robguide', 'full-guide1', 'full-guide2', 'full-video'];
+      for (const g of guides) {
+        const guideElement = document.getElementById(g);
+        const buttonElement = document.getElementById(`${g}-btn`);
+        if (guideElement && buttonElement) {
+          if (g === guide) {
+            guideElement.classList.remove('hidden');
+            buttonElement.classList.add('active');
+            buttonElement.classList.remove('inactive');
+          } else {
+            guideElement.classList.add('hidden');
+            buttonElement.classList.remove('active');
+            buttonElement.classList.add('inactive');
+          }
+        }
+      }
+    }
+
+    // Function to show the selected cup and toggle button styles
+    function showCup(cup) {
+      const cups = ['mushroom-cup', 'flower-cup', 'star-cup', 'special-cup'];
+      for (const c of cups) {
+        const cupElement = document.getElementById(c);
+        const buttonElement = document.getElementById(`${c}-btn`);
+        if (cupElement && buttonElement) {
+          if (c === cup) {
+            cupElement.classList.remove('hidden');
+            buttonElement.classList.add('active');
+            buttonElement.classList.remove('inactive');
+          } else {
+            cupElement.classList.add('hidden');
+            buttonElement.classList.remove('active');
+            buttonElement.classList.add('inactive');
+          }
+        }
+      }
+    }
+
+    // Function to show the selected track and toggle button styles
+    function showTrack(track) {
+      const tracks = ['luigi-raceway', 'moo-moo-farm', 'koopa-troopa-beach', 'kalimari-desert', 'toads-turnpike', 'frappe-snowland', 'choco-mountain', 'mario-raceway', 'wario-stadium', 'sherbet-land', 'royal-raceway', 'bowsers-castle', 'dks-jungle-parkway', 'yoshi-valley', 'banshee-boardwalk', 'rainbow-road'];
+      for (const t of tracks) {
+        const trackElement = document.getElementById(t + '-content');
+        const buttonElement = document.getElementById(t + '-btn');
+        if (trackElement && buttonElement) {
+          if (t === track) {
+            trackElement.classList.remove('hidden');
+            buttonElement.classList.add('active');
+            buttonElement.classList.remove('inactive');
+          } else {
+            trackElement.classList.add('hidden');
+            buttonElement.classList.remove('active');
+            buttonElement.classList.add('inactive');
+          }
+        }
+      }
+    }
+  </script>
+	
+	</script>
+	
+	<script>
+  function hideYoutubeIframe() {
+    document.getElementById("youtube-iframe-container").style.display = "none";
+  }
+  
+  function Change_vid_to(videoUrl) {
+  
+  console.log(videoUrl)
+  
+  
+   document.getElementById("youtube-iframe-container").style.display = "block";
+  //document.getElementById('youtube-video').src='https://www.youtube.com/embed/rfJAwLEufWo';
+  document.getElementById('youtube-video').src=videoUrl;
+  
+  
+  
+    //var iframe = document.getElementById("youtube-video");
+    //iframe.src = videoUrl;
+   
+  }
+</script>
+
+
+
+
+
+
+
+	
+	
+</body>
+
+</html>

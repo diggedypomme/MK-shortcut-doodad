@@ -11,7 +11,7 @@ This project acts as a shell for the Javascript N64 emulator N64Wasm [here](http
 
 Here is my [video](https://www.youtube.com/watch?v=PptLQPXxvG4) explaining this and showing how to use the tool.
 
-This was made for myself, and I'm unclear on the legality of storing savestates, so I'm going to upload it with the savestates missing, and you can create your own and add them in. I will add some text with the filename of the savestate and where to store it, and then in-game, you can click to download a savestate.
+This was made for myself, and I'm unclear on the legality of storing savestates, so I'm going to upload it with the savestates missing, so you're going to need to make your own, I'm afraid. I will add some text with the filename of the savestate and where to store it, and then in-game, you can click to download a savestate.
 
 ## Installation
 
